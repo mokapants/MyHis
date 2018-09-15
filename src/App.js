@@ -2,9 +2,9 @@
 
 import { createStackNavigator } from "react-navigation";
 
-import Home from "./main/Home";
-import DataSelect from "./main/DataSelect";
-import AddData from "./main/AddData";
+import Home from "MyHis/src/main/Home";
+import DataSelect from "MyHis/src/main/DataSelect";
+import AddData from "MyHis/src/main/AddData";
 
 const App = createStackNavigator({
   Home: Home,

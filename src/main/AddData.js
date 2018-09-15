@@ -2,31 +2,44 @@
 
 import React, { Component } from "react";
 import {
+  Alert,
   View,
   Text,
   TextInput,
   Button,
   ScrollView,
+  SafeAreaView,
   StyleSheet
 } from "react-native";
+
+import AddButtonMenu from "MyHis/src/component/AddButtonMenu";
 
 export default class AddData extends Component {
   constructor() {
     super();
-    this.state = {
-      dataTitle: "New Data"
-    };
+    this.state = { dataTitle: "New Data", orAddMode: false };
+    this.refreshHandler = this.refreshHandler.bind(this);
   }
 
-  static navigationOptions = {
-    title: "Add Data",
-    headerRight: (
-      <Button title="+ " onPress={() => alert("This is a button!")} />
-    )
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      title: "Add Data",
+      headerRight: <Button title=" + " onPress={() => params.handleThis()} />
+    };
   };
 
+  componentDidMount() {
+    this.props.navigation.setParams({
+      handleThis: this.refreshHandler
+    });
+  }
+
+  refreshHandler() {
+    this.setState({ orAddMode: !this.state.orAddMode });
+  }
+
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={{ flex: 1 }}>
         <View style={[styles.center, { flex: 2 }]}>
@@ -37,7 +50,7 @@ export default class AddData extends Component {
           />
           <Button
             title={this.state.dataTitle + " を追加"}
-            onPress={() => navigate("AddData")}
+            onPress={() => Alert.alert(String(this.state.orAddMode))}
           />
         </View>
 
@@ -45,9 +58,12 @@ export default class AddData extends Component {
 
         <View style={{ flex: 8 }}>
           <ScrollView>
-            <Text style={{ fontSize: 300 }}>aiueo</Text>
+            <Text style={{ fontSize: 300 }}>
+              {String(this.state.orAddMode)}
+            </Text>
           </ScrollView>
         </View>
+        <AddButtonMenu orAddMode={this.state.orAddMode} />
       </View>
     );
   }

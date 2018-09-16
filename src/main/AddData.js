@@ -7,18 +7,23 @@ import {
   Text,
   TextInput,
   Button,
+  Keyboard,
   ScrollView,
-  SafeAreaView,
   StyleSheet
 } from "react-native";
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import AddButtonMenu from "MyHis/src/component/AddButtonMenu";
 
 export default class AddData extends Component {
   constructor() {
     super();
-    this.state = { dataTitle: "New Data", orAddMode: false };
-    this.refreshHandler = this.refreshHandler.bind(this);
+    this.state = {
+      dataTitle: "New Data",
+      orAddMode: false,
+      addDatas: []
+    };
+    this.addMode = this.addMode.bind(this);
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -31,20 +36,59 @@ export default class AddData extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      handleThis: this.refreshHandler
+      handleThis: this.addMode
     });
   }
 
-  refreshHandler() {
-    this.setState({ orAddMode: !this.state.orAddMode });
+  addMode() {
+    this.setState({
+      orAddMode: !this.state.orAddMode
+    });
+  }
+
+  addButton() {
+    this.setState(nowState => {
+      return {
+        addDatas: nowState.addDatas.concat(
+          <Button
+            key={nowState.addDatas.toString()}
+            title="ボタン"
+            onPress={() => Alert.alert("aiuepyo----")}
+          />
+        )
+      };
+    });
+  }
+
+  addTextInput(title) {
+    this.setState(nowState => {
+      return {
+        addDatas: nowState.addDatas.concat(
+          <View key={nowState.addDatas.toString()}>
+            <Grid>
+              <Col size={1}>
+                <Text style={styles.infoText}>TextInput</Text>
+              </Col>
+              <Col size={2}>
+                <TextInput
+                  style={styles.newTextInput}
+                  placeholder={title}
+                  onChangeText={text => this.setState({ dataTitle: text })}
+                />
+              </Col>
+            </Grid>
+          </View>
+        )
+      };
+    });
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={[styles.center, { flex: 2 }]}>
+      <View>
+        <View style={[styles.center]}>
           <TextInput
-            style={styles.textInput}
+            style={styles.titleTextInput}
             placeholder="Data Title"
             onChangeText={text => this.setState({ dataTitle: text })}
           />
@@ -56,14 +100,15 @@ export default class AddData extends Component {
 
         <View style={styles.splitLine} />
 
-        <View style={{ flex: 8 }}>
-          <ScrollView>
-            <Text style={{ fontSize: 300 }}>
-              {String(this.state.orAddMode)}
-            </Text>
-          </ScrollView>
-        </View>
-        <AddButtonMenu orAddMode={this.state.orAddMode} />
+        <View>{this.state.addDatas}</View>
+
+        {this.state.orAddMode && (
+          <AddButtonMenu
+            orAddMode={this.state.orAddMode}
+            addButton={() => this.addButton()}
+            addTextInput={() => this.addTextInput()}
+          />
+        )}
       </View>
     );
   }
@@ -73,8 +118,8 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center"
   },
-  textInput: {
-    width: 300,
+  titleTextInput: {
+    width: 290,
     height: 45,
     margin: 15,
     borderRadius: 10,
@@ -85,5 +130,18 @@ const styles = StyleSheet.create({
     margin: 10,
     borderColor: "silver",
     borderWidth: StyleSheet.hairlineWidth
+  },
+  infoText: {
+    width: "90%",
+    top: 1,
+    height: 20,
+    textAlign: "center"
+  },
+  newTextInput: {
+    width: "90%",
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "white",
+    textAlign: "center"
   }
 });

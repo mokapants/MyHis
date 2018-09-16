@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 
 export default class DataSelect extends Component {
   static navigationOptions = {

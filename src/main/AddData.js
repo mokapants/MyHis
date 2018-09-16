@@ -77,6 +77,7 @@ export default class AddData extends Component {
                 />
               </Col>
             </Grid>
+            <View style={{ height: 3 }} />
           </View>
         )
       };
@@ -85,8 +86,8 @@ export default class AddData extends Component {
 
   render() {
     return (
-      <View>
-        <View style={[styles.center]}>
+      <View style={{ flex: 1 }}>
+        <View style={[styles.center, { flex: 2 }]}>
           <TextInput
             style={styles.titleTextInput}
             placeholder="Data Title"
@@ -100,7 +101,9 @@ export default class AddData extends Component {
 
         <View style={styles.splitLine} />
 
-        <View>{this.state.addDatas}</View>
+        <View style={{ flex: 8 }}>
+          <ScrollView>{this.state.addDatas}</ScrollView>
+        </View>
 
         {this.state.orAddMode && (
           <AddButtonMenu

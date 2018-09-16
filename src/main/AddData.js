@@ -24,6 +24,7 @@ export default class AddData extends Component {
       addDatas: []
     };
     this.addMode = this.addMode.bind(this);
+    this.addTextInput = this.addTextInput.bind(this);
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -46,20 +47,6 @@ export default class AddData extends Component {
     });
   }
 
-  addButton() {
-    this.setState(nowState => {
-      return {
-        addDatas: nowState.addDatas.concat(
-          <Button
-            key={nowState.addDatas.toString()}
-            title="ボタン"
-            onPress={() => Alert.alert("aiuepyo----")}
-          />
-        )
-      };
-    });
-  }
-
   addTextInput(title) {
     this.setState(nowState => {
       return {
@@ -67,7 +54,7 @@ export default class AddData extends Component {
           <View key={nowState.addDatas.toString()}>
             <Grid>
               <Col size={1}>
-                <Text style={styles.infoText}>TextInput</Text>
+                <Text style={styles.infoText}>{title}</Text>
               </Col>
               <Col size={2}>
                 <TextInput
@@ -108,8 +95,7 @@ export default class AddData extends Component {
         {this.state.orAddMode && (
           <AddButtonMenu
             orAddMode={this.state.orAddMode}
-            addButton={() => this.addButton()}
-            addTextInput={() => this.addTextInput()}
+            addTextInput={this.addTextInput}
           />
         )}
       </View>

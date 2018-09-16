@@ -5,6 +5,13 @@ import { Alert, View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 export default class AddButtonMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      handTitle: ""
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -14,7 +21,7 @@ export default class AddButtonMenu extends Component {
             <View style={styles.base}>
               <Button
                 title="コンポーネントを追加"
-                onPress={this.props.addTextInput}
+                onPress={() => this.props.addTextInput(this.state.handTitle)}
               />
 
               <Grid>
@@ -25,7 +32,7 @@ export default class AddButtonMenu extends Component {
                   <TextInput
                     style={styles.textInput}
                     placeholder="Data Title"
-                    onChangeText={() => null}
+                    onChangeText={text => this.setState({ handTitle: text })}
                   />
                 </Col>
               </Grid>

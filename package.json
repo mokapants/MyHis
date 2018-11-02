@@ -17,6 +17,7 @@
     "babel-preset-react-native": "^5",
     "babel-root-import": "^4.1.8",
     "jest": "23.6.0",
+    "merge": ">=1.2.1",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
